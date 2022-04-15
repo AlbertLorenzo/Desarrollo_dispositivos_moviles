@@ -35,12 +35,6 @@ public class EditTicketActivity extends AppCompatActivity {
         setButtonListener();
     }
 
-    @Override
-    protected void onDestroy() {
-        dbHelper.close();
-        super.onDestroy();
-    }
-
     private void setTicketData() {
         Gson gson = new Gson();
         this.ticket = gson.fromJson(getIntent().getStringExtra("TicketGson"), (Type) Ticket.class);
@@ -78,17 +72,16 @@ public class EditTicketActivity extends AppCompatActivity {
     private void updateTicket() {
         dbHelper = new SqliteHelper(context);
 
-        Ticket new_ticket = new Ticket(
-                String.valueOf(input_image.getText()),
-                Integer.parseInt(String.valueOf(input_category.getText())),
-                Double.parseDouble(String.valueOf(input_price.getText())),
-                String.valueOf(input_date.getText()),
-                String.valueOf(input_shortDesc.getText()),
-                String.valueOf(input_longDesc.getText()),
-                String.valueOf(input_location.getText())
-        );
+        Ticket new_ticket = new Ticket();
 
         new_ticket.setId(ticket.getId());
+        new_ticket.setImage(String.valueOf(input_image.getText()));
+        new_ticket.setCategory(Integer.parseInt(String.valueOf(input_category.getText())));
+        new_ticket.setPrice(Double.parseDouble(String.valueOf(input_price.getText())));
+        new_ticket.setDate(String.valueOf(input_date.getText()));
+        new_ticket.setShortDesc(String.valueOf(input_shortDesc.getText()));
+        new_ticket.setLongDesc(String.valueOf(input_longDesc.getText()));
+        new_ticket.setLocation(String.valueOf(input_location.getText()));
 
         dbHelper.updateTicket(new_ticket);
     }

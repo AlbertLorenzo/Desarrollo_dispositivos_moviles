@@ -36,17 +36,14 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        gatherTicketsData();
-
-        setMainViewAdapter();
-
         setButtonListeners();
     }
 
     @Override
-    protected void onDestroy() {
-        dbHelper.close();
-        super.onDestroy();
+    protected void onResume() {
+        gatherTicketsData();
+        setMainViewAdapter();
+        super.onResume();
     }
 
     private void setButtonListeners() {
@@ -82,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
             TicketWrapper wrapper = new TicketWrapper(cursor);
             wrapper.iterateCursor();
             this.ticketsList = wrapper.getTicketsList();
-            wrapper.closeCursor();
         }
     }
 

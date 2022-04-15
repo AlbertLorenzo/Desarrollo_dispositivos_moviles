@@ -19,18 +19,6 @@ public class Ticket {
     protected String longDesc;
     protected String location;
 
-    public Ticket(String image, int category, double price, String date, String shortDesc, String longDesc, String location) {
-        this.image = image;
-        this.category = category;
-        this.price = price;
-        this.date = date;
-        this.shortDesc = shortDesc;
-        this.longDesc = longDesc;
-        this.location = location;
-    }
-
-    public Ticket() { }
-
     public int getId() {
         return id;
     }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -73,6 +74,8 @@ public class SqliteHelper extends SQLiteOpenHelper {
     public void updateTicket(Ticket ticket) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+
+        Log.i("Ticket: ", ticket.toString());
 
         cv.put(COL_IMAGE, ticket.getImage());
         cv.put(COL_CATEGORY, ticket.getCategory());

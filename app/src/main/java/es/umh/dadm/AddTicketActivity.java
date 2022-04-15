@@ -40,12 +40,6 @@ public class AddTicketActivity extends AppCompatActivity {
         */
     }
 
-    @Override
-    protected void onDestroy() {
-        dbHelper.close();
-        super.onDestroy();
-    }
-
     private void setViews() {
         input_image = findViewById(R.id.input_image);
         input_category = findViewById(R.id.input_category);
@@ -60,22 +54,20 @@ public class AddTicketActivity extends AppCompatActivity {
     private void insertTicket() {
         dbHelper = new SqliteHelper(context);
 
-        Ticket ticket = new Ticket(
-                input_image.getText().toString(),
-                Integer.parseInt(input_category.getText().toString()),
-                Double.parseDouble(input_price.getText().toString()),
-                input_date.getText().toString(),
-                input_shortDesc.getText().toString(),
-                input_longDesc.getText().toString(),
-                input_location.getText().toString()
-        );
+        Ticket ticket = new Ticket();
+
+        ticket.setImage(input_image.getText().toString());
+        ticket.setCategory(Integer.parseInt(input_category.getText().toString()));
+        ticket.setPrice(Double.parseDouble(input_price.getText().toString()));
+        ticket.setLocation(input_location.getText().toString());
+        ticket.setDate(input_date.getText().toString());
+        ticket.setShortDesc(input_shortDesc.getText().toString());
+        ticket.setLongDesc(input_longDesc.getText().toString());
 
         dbHelper.insertTicket(ticket);
     }
 
     private void setButtonListener() {
-        btn_add_ticket.setOnClickListener(view -> {
-            insertTicket();
-        });
+        btn_add_ticket.setOnClickListener(view -> insertTicket());
     }
 }

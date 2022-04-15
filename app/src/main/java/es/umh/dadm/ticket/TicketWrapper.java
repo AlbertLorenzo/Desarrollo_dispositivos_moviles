@@ -33,9 +33,4 @@ public class TicketWrapper extends Ticket {
             ticketsList.add(listItem);
         }
     }
-
-    public void closeCursor() {
-        this.cursor.close();
-    }
-
 }
