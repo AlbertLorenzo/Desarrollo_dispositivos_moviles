@@ -36,8 +36,7 @@ public class EditTicketActivity extends AppCompatActivity {
     }
 
     private void setTicketData() {
-        Gson gson = new Gson();
-        this.ticket = gson.fromJson(getIntent().getStringExtra("TicketGson"), (Type) Ticket.class);
+        ticket = (Ticket) getIntent().getSerializableExtra("TICKET_KEY");
     }
 
     private void setViews() {

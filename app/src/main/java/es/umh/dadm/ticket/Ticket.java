@@ -6,9 +6,10 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Ticket {
+public class Ticket implements Serializable {
 
     protected int id;
     protected String image;

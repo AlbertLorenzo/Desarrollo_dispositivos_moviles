@@ -54,6 +54,8 @@ public class SqliteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
+        Log.i("Ticket: ", ticket.toString());
+
         cv.put(COL_IMAGE, ticket.getImage());
         cv.put(COL_CATEGORY, ticket.getCategory());
         cv.put(COL_PRICE, ticket.getPrice());

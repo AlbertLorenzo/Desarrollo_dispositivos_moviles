@@ -12,37 +12,34 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
 import es.umh.dadm.EditTicketActivity;
-import es.umh.dadm.MainActivity;
 import es.umh.dadm.R;
 import es.umh.dadm.storage.SqliteHelper;
 import es.umh.dadm.ticket.Ticket;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
+public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.Holder> {
 
     private final Context context;
     private ArrayList<Ticket> ticketsList;
     private SqliteHelper dbHelper;
 
-    public Adapter(Context context, ArrayList<Ticket> ticketsList) {
+    public TicketAdapter(Context context, ArrayList<Ticket> ticketsList) {
         this.context = context;
         this.ticketsList = ticketsList;
     }
 
     @NonNull
     @Override
-    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TicketAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.ticket_row, parent, false);
         return new Holder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder holder, int position) {
+    public void onBindViewHolder(@NonNull TicketAdapter.Holder holder, int position) {
         Ticket ticket = this.ticketsList.get(position);
 
         holder.ticket_id.setText(String.valueOf(ticket.getId()));
@@ -68,13 +65,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
 
     private void updateTicket(Ticket ticket) {
         Intent intent = new Intent(context, EditTicketActivity.class);
-        Gson gson = new Gson();
-        intent.putExtra("TicketGson", gson.toJson(ticket));
+        intent.putExtra("TICKET_KEY", ticket);
         context.startActivity(intent);
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void deleteTicket(Holder holder, int id) {
+    private void deleteTicket(TicketAdapter.Holder holder, int id) {
         dbHelper = new SqliteHelper(context);
         dbHelper.deleteTicket(String.valueOf(id));
         ticketsList.remove(holder.getAdapterPosition());

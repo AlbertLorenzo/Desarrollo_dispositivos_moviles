@@ -14,27 +14,29 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
-import es.umh.dadm.adapter.Adapter;
+import es.umh.dadm.adapter.TicketAdapter;
 import es.umh.dadm.storage.SqliteHelper;
-import es.umh.dadm.ticket.Ticket;
 import es.umh.dadm.ticket.TicketWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
     private final Context context = MainActivity.this;
-    private ArrayList<Ticket> ticketsList;
     private SqliteHelper dbHelper;
+    private Button btn_open_add_category_activity, btn_open_category_adapter;
+    private FloatingActionButton btn_open_add_ticket_activity;
+    private TicketWrapper ticketWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        hideWindowTitle();
+        //hideWindowTitle();
 
         setContentView(R.layout.activity_main);
+
+        setViews();
 
         setButtonListeners();
     }
@@ -46,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void setButtonListeners() {
-        Button btn_open_add_category_activity;
-        FloatingActionButton btn_open_add_ticket_activity;
-
+    private void setViews() {
         btn_open_add_category_activity =  findViewById(R.id.btn_open_add_category_activity);
         btn_open_add_ticket_activity = findViewById(R.id.btn_open_add_ticket_activity);
+        btn_open_category_adapter = findViewById(R.id.btn_open_category_adapter);
+    }
 
+    private void setButtonListeners() {
         btn_open_add_ticket_activity.setOnClickListener((View) -> {
             Intent intent = new Intent(context, AddTicketActivity.class);
             startActivity(intent);
@@ -60,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
 
         btn_open_add_category_activity.setOnClickListener((View) -> {
             Intent intent = new Intent(context, AddCategoryActivity.class);
+            startActivity(intent);
+        });
+
+        btn_open_category_adapter.setOnClickListener(view -> {
+            Intent intent = new Intent(context, CategoriesActivity.class);
             startActivity(intent);
         });
     }
@@ -72,20 +79,17 @@ public class MainActivity extends AppCompatActivity {
     public void gatherTicketsData() {
         dbHelper = new SqliteHelper(context);
         Cursor cursor = dbHelper.getTicketsData();
-
         if (cursor.getColumnCount() == 0) {
             Toast.makeText(this, "vasio miarma", Toast.LENGTH_SHORT).show();
         } else {
-            TicketWrapper wrapper = new TicketWrapper(cursor);
-            wrapper.iterateCursor();
-            this.ticketsList = wrapper.getTicketsList();
+            ticketWrapper = new TicketWrapper(cursor);
         }
     }
 
     private void setMainViewAdapter() {
         RecyclerView recyclerView = findViewById(R.id.main_recycleview);
-        Adapter adapter = new Adapter(context, this.ticketsList);
-        recyclerView.setAdapter(adapter);
+        TicketAdapter ticketAdapter = new TicketAdapter(context, ticketWrapper.getTicketsList());
+        recyclerView.setAdapter(ticketAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 }

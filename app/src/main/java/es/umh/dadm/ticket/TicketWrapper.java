@@ -4,20 +4,19 @@ import android.database.Cursor;
 
 import java.util.ArrayList;
 
-public class TicketWrapper extends Ticket {
+public class TicketWrapper {
     private ArrayList<Ticket> ticketsList;
-    private Cursor cursor;
 
     public TicketWrapper(Cursor cursor) {
         this.ticketsList = new ArrayList<>();
-        this.cursor = cursor;
+        iterateCursor(cursor);
     }
 
     public ArrayList<Ticket> getTicketsList() {
         return ticketsList;
     }
 
-    public void iterateCursor() {
+    private void iterateCursor(Cursor cursor) {
         while (cursor.moveToNext()) {
             Ticket listItem = new Ticket();
 

@@ -5,12 +5,14 @@ public class Category {
     private String shortDesc;
     private String longDesc;
     private String details;
+    private String imageName;
 
-    public Category(String id, String shortDesc, String longDesc, String details) {
+    public Category(String id, String shortDesc, String longDesc, String details, String imageName) {
         this.id = id;
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
         this.details = details;
+        this.imageName = imageName;
     }
 
     public String getId() {
@@ -43,5 +45,23 @@ public class Category {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id='" + id + '\'' +
+                ", shortDesc='" + shortDesc + '\'' +
+                ", longDesc='" + longDesc + '\'' +
+                ", details='" + details + '\'' +
+                '}';
     }
 }
