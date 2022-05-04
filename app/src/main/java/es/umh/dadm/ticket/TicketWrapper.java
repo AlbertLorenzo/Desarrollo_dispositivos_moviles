@@ -4,11 +4,15 @@ import android.database.Cursor;
 
 import java.util.ArrayList;
 
+import es.umh.dadm.storage.SqliteHelper;
+
 public class TicketWrapper {
     private ArrayList<Ticket> ticketsList;
+    private final SqliteHelper sqliteHelper;
 
     public TicketWrapper(Cursor cursor) {
         this.ticketsList = new ArrayList<>();
+        this.sqliteHelper = new SqliteHelper(null);
         iterateCursor(cursor);
     }
 

@@ -1,4 +1,4 @@
-package es.umh.dadm;
+package es.umh.dadm.ticketactivities;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,10 +7,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
-
-import java.lang.reflect.Type;
-
+import es.umh.dadm.R;
 import es.umh.dadm.storage.SqliteHelper;
 import es.umh.dadm.ticket.Ticket;
 

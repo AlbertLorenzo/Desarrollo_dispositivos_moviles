@@ -1,44 +1,27 @@
-package es.umh.dadm;
+package es.umh.dadm.categoryactivities;
 
-import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Date;
 
+import es.umh.dadm.R;
 import es.umh.dadm.category.Category;
+import es.umh.dadm.category.CategoryWrapper;
 import es.umh.dadm.storage.ExternalStorage;
 import es.umh.dadm.storage.InternalStorage;
 
@@ -49,7 +32,6 @@ public class AddCategoryActivity extends AppCompatActivity {
     private Button btn_add_category, btn_add_category_image;
     private ActivityResultLauncher<String> imgUri;
     private final Context context = this;
-    private InternalStorage internalStorage;
     private Bitmap bitmap;
 
     @Override
@@ -60,8 +42,6 @@ public class AddCategoryActivity extends AppCompatActivity {
         setViews();
 
         activityLauncher();
-
-        loadInternalData();
 
         setButtonListeners();
     }
@@ -80,10 +60,6 @@ public class AddCategoryActivity extends AppCompatActivity {
         );
     }
 
-    private void loadInternalData() {
-        internalStorage = new InternalStorage(context);
-    }
-
     private void setViews() {
         btn_add_category = findViewById(R.id.btn_add_category);
         btn_add_category_image = findViewById(R.id.btn_add_category_image);
@@ -94,17 +70,16 @@ public class AddCategoryActivity extends AppCompatActivity {
         img_view_category_image = findViewById(R.id.img_view_category_image);
     }
 
-    private String getSerializedData() {
-
+    private Category getNewObject() {
+        int timeStamp = (int) (new Date().getTime() / 1000);
         Category category = new Category(
                 input_id.getText().toString(),
                 input_short_desc.getText().toString(),
                 input_long_desc.getText().toString(),
                 input_details.getText().toString(),
-                input_id.getText().toString() + input_short_desc.getText().toString());
-
-        Gson gson = new Gson();
-        return gson.toJson(category);
+                input_id.getText().toString() + input_short_desc.getText().toString() + timeStamp
+        );
+        return category;
     }
 
     private void setButtonListeners() {
@@ -115,10 +90,9 @@ public class AddCategoryActivity extends AppCompatActivity {
         });
 
         btn_add_category.setOnClickListener(view -> {
-            String categorySerialized = getSerializedData();
-            internalStorage.writeInternal(context, categorySerialized);
-            String imageName = input_id.getText().toString() + input_short_desc.getText().toString();
-            ExternalStorage.BitmapToSDCard(bitmap, context, imageName + ".jpg");
+            Category category = getNewObject();
+            CategoryWrapper.getInstance().insertCategory(category);
+            ExternalStorage.BitmapToSDCard(bitmap, context, category.getImageName() + ".jpg");
             Toast.makeText(context, "Categoría añadida.", Toast.LENGTH_SHORT).show();
             finish();
         });

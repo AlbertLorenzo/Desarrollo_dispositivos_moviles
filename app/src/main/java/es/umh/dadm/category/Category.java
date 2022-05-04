@@ -1,6 +1,10 @@
 package es.umh.dadm.category;
 
-public class Category {
+import com.google.gson.Gson;
+
+import java.io.Serializable;
+
+public class Category implements Serializable {
     private String id;
     private String shortDesc;
     private String longDesc;
@@ -63,5 +67,10 @@ public class Category {
                 ", longDesc='" + longDesc + '\'' +
                 ", details='" + details + '\'' +
                 '}';
+    }
+
+    public String stringify() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

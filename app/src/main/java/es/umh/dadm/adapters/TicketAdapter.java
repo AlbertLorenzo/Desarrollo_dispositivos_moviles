@@ -1,4 +1,4 @@
-package es.umh.dadm.adapter;
+package es.umh.dadm.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import es.umh.dadm.EditTicketActivity;
+import es.umh.dadm.ticketactivities.EditTicketActivity;
 import es.umh.dadm.R;
 import es.umh.dadm.storage.SqliteHelper;
 import es.umh.dadm.ticket.Ticket;

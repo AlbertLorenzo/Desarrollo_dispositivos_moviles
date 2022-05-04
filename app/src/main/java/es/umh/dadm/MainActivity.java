@@ -1,5 +1,6 @@
 package es.umh.dadm;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,36 +9,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.Window;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Objects;
-
-import es.umh.dadm.adapter.TicketAdapter;
+import es.umh.dadm.adapters.TicketAdapter;
+import es.umh.dadm.categoryactivities.AddCategoryActivity;
 import es.umh.dadm.storage.SqliteHelper;
 import es.umh.dadm.ticket.TicketWrapper;
+import es.umh.dadm.ticketactivities.AddTicketActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private final Context context = MainActivity.this;
-    private SqliteHelper dbHelper;
-    private Button btn_open_add_category_activity, btn_open_category_adapter;
     private FloatingActionButton btn_open_add_ticket_activity;
     private TicketWrapper ticketWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //hideWindowTitle();
-
         setContentView(R.layout.activity_main);
-
         setViews();
-
         setButtonListeners();
     }
 
@@ -48,10 +44,36 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.main_menu) {
+            openCategoriesActivity();
+        } else if (item.getItemId() == R.id.main_menu_add_category) {
+            openAddCategoryActivity();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openCategoriesActivity() {
+        Intent intent = new Intent(context, CategoriesActivity.class);
+        startActivity(intent);
+    }
+
+    private void openAddCategoryActivity() {
+        Intent intent = new Intent(context, AddCategoryActivity.class);
+        startActivity(intent);
+    }
+
     private void setViews() {
-        btn_open_add_category_activity =  findViewById(R.id.btn_open_add_category_activity);
         btn_open_add_ticket_activity = findViewById(R.id.btn_open_add_ticket_activity);
-        btn_open_category_adapter = findViewById(R.id.btn_open_category_adapter);
     }
 
     private void setButtonListeners() {
@@ -59,30 +81,15 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(context, AddTicketActivity.class);
             startActivity(intent);
         });
-
-        btn_open_add_category_activity.setOnClickListener((View) -> {
-            Intent intent = new Intent(context, AddCategoryActivity.class);
-            startActivity(intent);
-        });
-
-        btn_open_category_adapter.setOnClickListener(view -> {
-            Intent intent = new Intent(context, CategoriesActivity.class);
-            startActivity(intent);
-        });
-    }
-
-    private void hideWindowTitle() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        Objects.requireNonNull(getSupportActionBar()).hide();
     }
 
     public void gatherTicketsData() {
-        dbHelper = new SqliteHelper(context);
+        SqliteHelper dbHelper = new SqliteHelper(context);
         Cursor cursor = dbHelper.getTicketsData();
-        if (cursor.getColumnCount() == 0) {
-            Toast.makeText(this, "vasio miarma", Toast.LENGTH_SHORT).show();
-        } else {
+        if (cursor.getColumnCount() != 0) {
             ticketWrapper = new TicketWrapper(cursor);
+        } else {
+            Toast.makeText(context, "Actualmente no existe ningún ticket.", Toast.LENGTH_SHORT).show();
         }
     }
 

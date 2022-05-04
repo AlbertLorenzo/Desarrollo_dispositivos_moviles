@@ -1,10 +1,9 @@
-package es.umh.dadm;
+package es.umh.dadm.ticketactivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,11 +11,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import java.util.Arrays;
-
-import es.umh.dadm.category.Category;
+import es.umh.dadm.R;
+import es.umh.dadm.category.CategoryWrapper;
 import es.umh.dadm.storage.InternalStorage;
 import es.umh.dadm.storage.SqliteHelper;
 import es.umh.dadm.ticket.Ticket;
@@ -28,15 +24,13 @@ public class AddTicketActivity extends AppCompatActivity {
     private Spinner input_spinner_category;
     private Button btn_add_ticket;
     private final Context context = this;
-    private SqliteHelper dbHelper;
-    private InternalStorage internalStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ticket);
 
-        loadInternalData();
+        checkCategories();
 
         setViews();
 
@@ -47,11 +41,9 @@ public class AddTicketActivity extends AppCompatActivity {
         validate();
     }
 
-    private void loadInternalData() {
-        internalStorage = new InternalStorage(context);
-
-        if (internalStorage.internalIsEmpty()) {
-            Toast.makeText(this, "Para insertar tickets debes añadir, al menos, una categoría.", Toast.LENGTH_SHORT).show();
+    private void checkCategories() {
+        if (!(CategoryWrapper.getInstance().getCategoryArrayList().size() > 0)) {
+            Toast.makeText(context, "Antes de añadir un ticket debes crear una categoría.", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
@@ -68,7 +60,7 @@ public class AddTicketActivity extends AppCompatActivity {
     }
 
     private void setSpinner() {
-        ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, internalStorage.getLabels());
+        ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, CategoryWrapper.getInstance().getLabels());
         adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         input_spinner_category.setAdapter(adp);
     }
@@ -85,7 +77,7 @@ public class AddTicketActivity extends AppCompatActivity {
     }
 
     private void insertTicket() {
-        dbHelper = new SqliteHelper(context);
+        SqliteHelper dbHelper = new SqliteHelper(context);
 
         Ticket ticket = new Ticket();
 
