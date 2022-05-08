@@ -1,34 +1,31 @@
 package es.umh.dadm.validator;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.TextView;
+import android.widget.EditText;
 
-// WIP class
-public abstract class TextValidator implements TextWatcher {
-    private final TextView textView;
+import java.util.regex.Pattern;
 
-    public TextValidator(TextView textView) {
-        this.textView = textView;
+public abstract class TextValidator {
+    private static final Pattern DATE_PATERN = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+
+    public static boolean checkDate(EditText etDate) {
+        String date = etDate.getText().toString();
+        boolean check = true;
+        if (!DATE_PATERN.matcher(date).matches()) {
+            etDate.setError("El formato de la fecha no es válido 00/00/0000");
+            check = false;
+        }
+        return check;
     }
 
-    public abstract void validate(TextView textView, String text);
+    public static boolean validate(EditText[] et) {
+        boolean check = true;
 
-    @Override
-    final public void afterTextChanged(Editable s) {
-        String text = textView.getText().toString();
-        validate(textView, text);
-    }
-
-    @Override
-    final public void
-    beforeTextChanged(CharSequence s, int start, int count, int after) {
-        // Es necesaria la declaración
-    }
-
-    @Override
-    final public void
-    onTextChanged(CharSequence s, int start, int before, int count) {
-        // Es necesaria la declaración
+        for (EditText item : et) {
+            if (item.getText().toString().trim().isEmpty()) {
+                item.setError("Este campo no puede estar vacío.");
+                check = false;
+            }
+        }
+        return check;
     }
 }

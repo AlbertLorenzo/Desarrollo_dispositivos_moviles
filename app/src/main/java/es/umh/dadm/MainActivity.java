@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import es.umh.dadm.adapters.TicketAdapter;
+import es.umh.dadm.category.CategoryWrapper;
 import es.umh.dadm.categoryactivities.AddCategoryActivity;
 import es.umh.dadm.storage.SqliteHelper;
 import es.umh.dadm.ticket.TicketWrapper;
@@ -38,9 +40,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    /**
+     * Cada vez que la actividad entra en pausa y se modifica/elimina un ticket
+     * volverá a esta actividad y se actualizarán los datos en la DB y en el adaptador del RecyclerView
+     */
+    @Override
     protected void onResume() {
         gatherTicketsData();
         setMainViewAdapter();
+        showEmpty();
         super.onResume();
     }
 
@@ -86,9 +98,11 @@ public class MainActivity extends AppCompatActivity {
     public void gatherTicketsData() {
         SqliteHelper dbHelper = new SqliteHelper(context);
         Cursor cursor = dbHelper.getTicketsData();
-        if (cursor.getColumnCount() != 0) {
-            ticketWrapper = new TicketWrapper(cursor);
-        } else {
+        ticketWrapper = new TicketWrapper(cursor);
+    }
+
+    private void showEmpty() {
+        if (this.ticketWrapper.getTicketsList().size() == 0) {
             Toast.makeText(context, "Actualmente no existe ningún ticket.", Toast.LENGTH_SHORT).show();
         }
     }

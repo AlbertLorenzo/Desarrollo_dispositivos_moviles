@@ -41,14 +41,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Holder
     public void onBindViewHolder(@NonNull CategoryAdapter.Holder holder, int position) {
         Category category = catWrapper.getCategoryArrayList().get(position);
 
-        holder.category_id.setText(String.valueOf(category.getId()));
-        holder.category_image.setImageBitmap(ExternalStorage.loadBitmapFromSDCard(category.getImageName(), context));
+        holder.category_id.setText(category.getId());
+        holder.category_sDesc.setText(category.getShortDesc());
+        holder.category_image.setImageBitmap(ExternalStorage.loadBitmapFromSDCard(category.getImageName()));
 
         holder.itemView.setOnLongClickListener((view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage("¿Desea realmente borrar esta categoría?")
                     .setPositiveButton("Sí", (dialogInterface, i) -> {
-                        deleteCategory(category, position);
+                        deleteCategory(position);
                         dialogInterface.cancel();
                     })
                     .setNegativeButton("No", (dialog, id) -> dialog.cancel());
@@ -64,13 +65,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Holder
     private void updateCategory(Category category, int position) {
         Intent intent = new Intent(context, EditCategoryActivity.class);
         intent.putExtra("CATEGORY_KEY", category);
+        intent.putExtra("CATEGORY_POSITION", position);
         context.startActivity(intent);
         notifyItemChanged(position);
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void deleteCategory(Category category, int position) {
-        catWrapper.removeCategory(category);
+    private void deleteCategory(int position) {
+        catWrapper.removeCategory(position);
         notifyItemRemoved(position);
         notifyDataSetChanged();
     }
@@ -83,12 +85,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Holder
     public static class Holder extends RecyclerView.ViewHolder {
 
         protected ImageView category_image;
-        protected TextView category_id;
+        protected TextView category_id, category_sDesc;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
             category_image = itemView.findViewById(R.id.category_image);
             category_id = itemView.findViewById(R.id.category_id);
+            category_sDesc = itemView.findViewById(R.id.category_sDesc);
         }
     }
 }

@@ -32,20 +32,16 @@ public class EditCategoryActivity extends AppCompatActivity {
     private ActivityResultLauncher<String> imgUri;
     private ActivityResultLauncher<Intent> imgCamera;
     private Bitmap bitmap = null;
+    private int categoryIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_category);
-
         setViews();
-
         setCategoryData();
-
         setDataToViews();
-
         activityLauncher();
-
         setButtonListeners();
     }
 
@@ -61,13 +57,14 @@ public class EditCategoryActivity extends AppCompatActivity {
 
     private void setCategoryData() {
         category = (Category) getIntent().getSerializableExtra("CATEGORY_KEY");
+        categoryIndex = getIntent().getIntExtra("CATEGORY_POSITION", 0);
     }
 
     private void setDataToViews() {
         input_edit_category_details.setText(category.getDetails());
         input_edit_category_sDesc.setText(category.getShortDesc());
         input_edit_category_lDesc.setText(category.getLongDesc());
-        img_view_edit_category_image.setImageBitmap(ExternalStorage.loadBitmapFromSDCard(category.getImageName(), context));
+        img_view_edit_category_image.setImageBitmap(ExternalStorage.loadBitmapFromSDCard(category.getImageName()));
     }
 
     private void activityLauncher() {
@@ -101,8 +98,8 @@ public class EditCategoryActivity extends AppCompatActivity {
         String newImageName;
 
         if (bitmap != null) {
-            newImageName = category.getId() + input_edit_category_sDesc.getText().toString() + timeStamp;
-            ExternalStorage.BitmapToSDCard(bitmap, context, newImageName + ".jpg");
+            newImageName = category.getId() + timeStamp;
+            ExternalStorage.BitmapToSDCard(bitmap, newImageName);
         } else {
             newImageName = category.getImageName();
         }
@@ -119,7 +116,7 @@ public class EditCategoryActivity extends AppCompatActivity {
     private void setButtonListeners() {
         btn_edit_category_confirm.setOnClickListener(view -> {
             Category newCategory = getNewCategory();
-            CategoryWrapper.getInstance().updateCategory(newCategory);
+            CategoryWrapper.getInstance().updateCategory(newCategory, categoryIndex);
             Toast.makeText(context, "Categoría actualizada.", Toast.LENGTH_SHORT).show();
         });
 

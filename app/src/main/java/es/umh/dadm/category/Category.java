@@ -69,6 +69,10 @@ public class Category implements Serializable {
                 '}';
     }
 
+    /**
+     * Devuelve la categoría como objeto String formateado como JSON
+     * @return
+     */
     public String stringify() {
         Gson gson = new Gson();
         return gson.toJson(this);

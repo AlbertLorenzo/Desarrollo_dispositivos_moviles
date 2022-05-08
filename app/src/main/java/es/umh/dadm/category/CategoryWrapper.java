@@ -17,6 +17,9 @@ public class CategoryWrapper {
     private final Context context;
     private final Gson gson;
 
+    /**
+     * La lectura de las categorías sólo se hará una única vez
+     */
     private CategoryWrapper() {
         gson = new Gson();
         context = App.getContext();
@@ -24,6 +27,11 @@ public class CategoryWrapper {
         categoryArrayList = internalStorage.fileDataAsArrayList();
     }
 
+    /**
+     * Esta clase sigue un patrón singleton para manejar los datos de las categorías
+     * así siempre se accede a la misma instancia y sólo se lee el fichero al recoger la instancia por primera vez
+     * @return devuelve la instancia
+     */
     public static CategoryWrapper getInstance() {
         if (instance == null) {
             instance = new CategoryWrapper();
@@ -45,29 +53,21 @@ public class CategoryWrapper {
         return sb.toString();
     }
 
-    public void updateCategory(Category newCategory) {
-        for (Category item : this.categoryArrayList) {
-            if (item.getId().equals(newCategory.getId())) {
-                item.setLongDesc(newCategory.getShortDesc());
-                item.setShortDesc(newCategory.getLongDesc());
-                item.setDetails(newCategory.getDetails());
-                if (!item.getImageName().equals(newCategory.getImageName())) {
-                    ExternalStorage.deleteBitmapFromSDCard(item.getImageName(), context);
-                    item.setImageName(newCategory.getImageName());
-                }
-            }
+    public void updateCategory(Category newCategory, int position) {
+        Category item = this.categoryArrayList.get(position);
+        item.setLongDesc(newCategory.getLongDesc());
+        item.setShortDesc(newCategory.getShortDesc());
+        item.setDetails(newCategory.getDetails());
+        if (!item.getImageName().equals(newCategory.getImageName())) {
+            ExternalStorage.deleteBitmapFromSDCard(item.getImageName());
+            item.setImageName(newCategory.getImageName());
         }
         internalStorage.writeNewData(dataAsString());
     }
 
-    public void removeCategory(Category deletedCategory) {
-        for (int i = 0; i < categoryArrayList.size(); i++) {
-            if (categoryArrayList.get(i).getId().equals(deletedCategory.getId())) {
-                ExternalStorage.deleteBitmapFromSDCard(categoryArrayList.get(i).getImageName(), context);
-                categoryArrayList.remove(i);
-                break;
-            }
-        }
+    public void removeCategory(int position) {
+        ExternalStorage.deleteBitmapFromSDCard(categoryArrayList.get(position).getImageName());
+        categoryArrayList.remove(position);
         internalStorage.writeNewData(dataAsString());
     }
 

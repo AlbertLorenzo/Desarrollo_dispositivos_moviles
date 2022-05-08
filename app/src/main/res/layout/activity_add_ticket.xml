@@ -6,45 +6,27 @@
     android:layout_height="match_parent"
     android:padding="30sp">
 
-    <EditText
-        android:id="@+id/input_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:hint="Foto"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/input_spinner_category"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.733"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/btn_add_ticket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginBottom="16dp"
         android:text="AÑADIR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/input_long_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Descripción larga"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_ticket"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_ticket_image_from_camera"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -110,6 +92,26 @@
         android:layout_marginBottom="16dp"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/input_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_add_ticket_image_from_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Añadir imagen desde la cámara"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_ticket_image_from_gallery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_add_ticket_image_from_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Añadir imagen desde la galería"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_ticket"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

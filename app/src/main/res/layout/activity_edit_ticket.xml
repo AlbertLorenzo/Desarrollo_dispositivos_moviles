@@ -6,114 +6,121 @@
     android:layout_height="match_parent"
     android:padding="30sp">
 
-    <EditText
-        android:id="@+id/input_edit_image"
+    <Button
+        android:id="@+id/btn_edit_ticket_image_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="125dp"
         android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:hint="Foto"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/input_edit_category"
+        android:text="cambiar imagen desde la cámara"
+        app:layout_constraintBottom_toTopOf="@+id/btn_edit_ticket_image_gallery"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/input_edit_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Categoría"
         android:inputType="number"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/input_edit_price"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_edit_image" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/input_edit_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Precio"
         android:inputType="numberDecimal"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/input_edit_date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_edit_category" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/input_edit_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Fecha"
         android:inputType="date"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/input_edit_short_desc"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_edit_price" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/input_edit_short_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Descripción corta"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/input_edit_long_desc"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_edit_date" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/input_edit_long_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Descripción larga"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/input_edit_location"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_edit_short_desc" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/input_edit_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="188dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Localización"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_edit_ticket_image_camera"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_edit_long_desc" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_edit_ticket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CONFIRMAR"
+        android:layout_marginBottom="16dp"
+        android:text="CONFIRMAR actualización"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_edit_ticket_image_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="cambiar imagen desde la galería"
+        app:layout_constraintBottom_toTopOf="@+id/btn_edit_ticket"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_view_edit_ticket_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/input_edit_category"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_edit_location" />
+        tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>
